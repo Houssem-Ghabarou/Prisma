@@ -2,22 +2,37 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.user.deleteMany();
-  const users = await prisma.user.createMany({
-    data: [
-      {
-        name: "Houssem",
-        email: "houssemghabarou@gmail.com",
-        age: 20,
-      },
-      {
-        name: "Nour",
-        email: "nour@gmail.com",
-        age: 20,
-      },
-    ],
+  //for unique fields
+  // const user = await prisma.user.findUnique({
+  //   where: {
+  //     // email: "houssemghabarou@gmail.com",
+  //     age_name: {
+  //       age: 20,
+  //       name: "Houssem",
+  //     },
+  //   },
+  //   // select: {
+  //   //   email: true,
+  //   // },
+  // });
+
+  //for normal fields
+  const user = await prisma.user.findMany({
+    // we can use findFirst also
+    where: {
+      name: "houssem",
+    },
+    // distinct: ["name"],
+    take: 2, //pagination
+    skip: 1, //skip one record
+    orderBy: {
+      age: "desc",
+    },
+    // select: {
+    //   email: true,
+    // },
   });
-  console.log(users);
+  console.log(user);
 }
 
 main()
