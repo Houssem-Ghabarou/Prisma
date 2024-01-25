@@ -19,7 +19,7 @@ model User {
   writtenPosts     Post[]          @relation("WrittenPosts")
   favoritePosts    Post[]          @relation("FavoritePosts")
   userPreference   UserPreference? @relation(fields: [userPreferenceId], references: [id])
-  userPreferenceId String          @unique
+  userPreferenceId String?         @unique
 
   @@unique([age, name]) // user has name and age at same time it throws error
   @@index([email]) // create index for email it s good for performace and querying

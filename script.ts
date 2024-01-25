@@ -3,29 +3,21 @@ const prisma = new PrismaClient();
 
 async function main() {
   await prisma.user.deleteMany();
-  const user = await prisma.user.create({
-    data: {
-      name: "Housse",
-      email: "houssemghabarou@gmail.com",
-      age: 20,
-      userPreference: {
-        create: {
-          emailUpdates: true,
-        },
+  const users = await prisma.user.createMany({
+    data: [
+      {
+        name: "Houssem",
+        email: "houssemghabarou@gmail.com",
+        age: 20,
       },
-    },
-
-    //either a select or include u can usee
-    // -----------
-    // include: {
-    //   userPreference: true,
-    // },
-    select: {
-      name: true,
-      userPreference: { select: { id: true } },
-    },
+      {
+        name: "Nour",
+        email: "nour@gmail.com",
+        age: 20,
+      },
+    ],
   });
-  console.log(user);
+  console.log(users);
 }
 
 main()
