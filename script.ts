@@ -2,35 +2,38 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  const usersUser = await prisma.user.findMany({
+  // const user = await prisma.user.update({
+  //   // also updateMany
+  //   data: {
+  //     age: {
+  //       // increment: 1,
+  //       // decrement: 5,
+  //       // multiply: 6,
+  //       divide: 6,
+  //     },
+  //   },
+  //   where: {
+  //     email: "houssemghabarou@gmail.com",
+  //   },
+  //   // select: {
+  //   //   name: true,
+  //   // },
+  // });
+  const user = await prisma.user.update({
     where: {
-      // userPreference: {
-      //   emailUpdates: true,
-      // },
-      writtenPosts: {
-        // every: {
-        //   title: "Test",
-        // },
-        // none: {
-        //   title: "Test",
-        // },
-        some: {
-          title: { equals: "test" },
+      email: "houssemghabarou@gmail.com ",
+    },
+    data: {
+      userPreference: {
+        connect: {
+          //u can disconnect also with ####disconnect
+          ///this will connect the user created to a preference that is already created before
+          id: "createdId for exampl 5454845655687884",
         },
       },
     },
   });
-  const usersPost = await prisma.post.findMany({
-    where: {
-      author: {
-        is: {
-          //isNot available also
-          age: 22,
-        },
-      },
-    },
-  });
-  console.log(usersUser, usersPost);
+  console.log(user);
 }
 
 main()
