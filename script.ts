@@ -2,37 +2,26 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  //for unique fields
-  // const user = await prisma.user.findUnique({
-  //   where: {
-  //     // email: "houssemghabarou@gmail.com",
-  //     age_name: {
-  //       age: 20,
-  //       name: "Houssem",
-  //     },
-  //   },
-  //   // select: {
-  //   //   email: true,
-  //   // },
-  // });
-
-  //for normal fields
-  const user = await prisma.user.findMany({
-    // we can use findFirst also
-    where: {
-      name: "houssem",
-    },
-    // distinct: ["name"],
-    take: 2, //pagination
-    skip: 1, //skip one record
-    orderBy: {
-      age: "desc",
-    },
-    // select: {
-    //   email: true,
+  const users = await prisma.user.findMany({
+    // where: {
+    //   // name: { equals: "houssem" },
+    //   // name: { not: "houssem" },
+    //   // name: { in: ["houssem", "Nour"] },
+    //   // name: { notIn: ["houssem", "Nour"] },
+    //   // age: { lt: 25 },
+    //   // age: { gt: 20 },
+    //   email: { contains: "@gmail.com" }, //endWith || startsWith
     // },
+    where: {
+      // AND: [
+      //   { email: { startsWith: "hous" } },
+      //   { email: { endsWith: "@gmail.com" } },
+      // ],
+      // OR: [{ email: { startsWith: "hous" } }, { age: { gt: 20 } }],
+      NOT: { email: { startsWith: "hous" } },
+    },
   });
-  console.log(user);
+  console.log(users);
 }
 
 main()
