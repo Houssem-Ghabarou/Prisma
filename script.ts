@@ -2,26 +2,35 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  const users = await prisma.user.findMany({
-    // where: {
-    //   // name: { equals: "houssem" },
-    //   // name: { not: "houssem" },
-    //   // name: { in: ["houssem", "Nour"] },
-    //   // name: { notIn: ["houssem", "Nour"] },
-    //   // age: { lt: 25 },
-    //   // age: { gt: 20 },
-    //   email: { contains: "@gmail.com" }, //endWith || startsWith
-    // },
+  const usersUser = await prisma.user.findMany({
     where: {
-      // AND: [
-      //   { email: { startsWith: "hous" } },
-      //   { email: { endsWith: "@gmail.com" } },
-      // ],
-      // OR: [{ email: { startsWith: "hous" } }, { age: { gt: 20 } }],
-      NOT: { email: { startsWith: "hous" } },
+      // userPreference: {
+      //   emailUpdates: true,
+      // },
+      writtenPosts: {
+        // every: {
+        //   title: "Test",
+        // },
+        // none: {
+        //   title: "Test",
+        // },
+        some: {
+          title: { equals: "test" },
+        },
+      },
     },
   });
-  console.log(users);
+  const usersPost = await prisma.post.findMany({
+    where: {
+      author: {
+        is: {
+          //isNot available also
+          age: 22,
+        },
+      },
+    },
+  });
+  console.log(usersUser, usersPost);
 }
 
 main()
